@@ -1,6 +1,7 @@
 package org.courtesilol.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -28,33 +29,34 @@ public class Button extends JButton {
     private boolean isHovered = false;
 
     public Button(String text, int width, int heigth, ButtonStyle style, int cornerRadius) {
-        setSize(width, heigth);
+        
         setText(text);
+        setSize(width, heigth);
+        setContentAreaFilled(false);
+        setBorder(BorderFactory.createEmptyBorder());
+        setPreferredSize(new Dimension(width, heigth));
+        
+        this.cornerRadius = cornerRadius;
+        
         if (style != null) {
-            setFocusable(style.focusable());
-            if (style.textColor() != null) {
-                setForeground(style.textColor());
-                textColor = style.textColor();
+            setFocusable(style.focusable);
+            if (style.textColor != null) {
+                setForeground(style.textColor);
+                textColor = style.textColor;
             }
                 
-            if (style.backGround() != null) {
-                setBackground(style.backGround());
-                backGroundColor = style.backGround();
+            if (style.backGround != null) {
+                setBackground(style.backGround);
+                backGroundColor = style.backGround;
             }
                 
-            if (style.hoverBackGroundColor() != null) 
-                hoverBackGroundColor = style.hoverBackGroundColor();
+            if (style.hoverBackGroundColor != null) hoverBackGroundColor = style.hoverBackGroundColor;
             else hoverBackGroundColor = getBackground();
             
-            if (style.hoverTextColor() != null) 
-                hoverTextColor = style.hoverTextColor();
+            if (style.hoverTextColor != null) hoverTextColor = style.hoverTextColor;
             else hoverTextColor = getForeground();
         }
-
-        this.cornerRadius = cornerRadius;
-        setContentAreaFilled(false); // Evita el relleno predeterminado
-        setBorder(BorderFactory.createEmptyBorder(heigth/2, width/2, heigth/2, width/2));
-
+        
         //Event to focus
         addMouseListener(new MouseAdapter() {
             @Override
@@ -91,6 +93,10 @@ public class Button extends JButton {
     
     public void setHoverColor(Color hoverColor) {
         this.hoverBackGroundColor = hoverColor;
+    }
+    
+    public boolean isHovered() {
+        return isHovered;
     }
     
     
