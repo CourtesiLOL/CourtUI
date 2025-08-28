@@ -25,6 +25,7 @@ public class Button extends JButton {
     
     private Color textColor;
     private Color backGroundColor;
+    private Color currentBorderColor;
     
     private boolean isHovered = false;
 
@@ -33,9 +34,9 @@ public class Button extends JButton {
         setText(text);
         setSize(width, heigth);
         setContentAreaFilled(false);
-        setBorder(BorderFactory.createEmptyBorder());
         setPreferredSize(new Dimension(width, heigth));
-        
+        setMargin(null);
+        currentBorderColor = getBackground();
         this.cornerRadius = cornerRadius;
         
         if (style != null) {
@@ -48,6 +49,7 @@ public class Button extends JButton {
             if (style.backGround != null) {
                 setBackground(style.backGround);
                 backGroundColor = style.backGround;
+                currentBorderColor = backGroundColor;
             }
                 
             if (style.hoverBackGroundColor != null) hoverBackGroundColor = style.hoverBackGroundColor;
@@ -64,6 +66,7 @@ public class Button extends JButton {
                 isHovered = true; // Cambia el estado a hovered
                 setBackground(hoverBackGroundColor);
                 setForeground(hoverTextColor);
+                currentBorderColor = hoverBackGroundColor;
                 repaint(); // Redibuja el botón
             }
 
@@ -72,6 +75,7 @@ public class Button extends JButton {
                 isHovered = false; // Cambia el estado a no hovered
                 setBackground(backGroundColor);
                 setForeground(textColor);
+                currentBorderColor = backGroundColor;
                 repaint(); // Redibuja el botón
             }
         });
@@ -103,7 +107,15 @@ public class Button extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        //smooth render
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        //Best cuality
+        //g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        
+        //Best speed render
+        //g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+
         g2.setColor(getBackground());
         g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius));
         // Dibuja el texto
@@ -115,7 +127,7 @@ public class Button extends JButton {
     protected void paintBorder(Graphics g) {
         // Dibuja el borde redondeado
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(getForeground());
+        g2.setColor(currentBorderColor);
         g2.draw(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius));
     }
 

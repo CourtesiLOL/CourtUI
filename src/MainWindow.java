@@ -35,7 +35,7 @@ public class MainWindow extends JFrame {
     
     private void testButtons(JPanel panel) {
         //Estilos reutilizable para botones
-        var btnStyle = new ButtonStyle(Color.darkGray, Color.lightGray, Color.lightGray, Color.darkGray);
+        var btnStyle = new ButtonStyle(Color.darkGray, Color.lightGray, Color.lightGray, Color.darkGray, false, true);
         
         Button tem;
         int btnWidth = 100, btnHeight = 50;
